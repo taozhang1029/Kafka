@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://blog.csdn.net/white_ice/article/details/85065219-->
+<!-- scan：程序运行时配置文件被修改，是否重新加载。true=重新加载；false=不重新加载；默认为true; -->
+<!-- scanPeriod：监测配置文件被修改的时间间隔，scan属性必须设置为true才可生效；默认为1分钟，默认单位是毫秒； -->
+<!-- debug：是否打印logback程序运行的日志信息。true=打印；false=不打印；默认为false; -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 配置clr的转换器类【重要】 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <!--引入日志文件的配置参数 -->
+    <property resource="log.properties"/>
+
+    <contextName>${log.context}</contextName>
+
+    <!--控制台日志， 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.console.pattern}</pattern>
+            <!-- 设置字符集 -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 文件日志 -->
+  <!--
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/${log.current.filename}</file>
+        <append>true</append>
+        &lt;!&ndash; 支持多JVM同时操作同一个日志文件 &ndash;&gt;
+        <prudent>false</prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash; 归档周期 &ndash;&gt;
+            <fileNamePattern>${log.dir}/${log.zip.pattern}/${log.day.filename}</fileNamePattern>
+            &lt;!&ndash;日志文件保留天数&ndash;&gt;
+            <maxHistory>${log.day.remain}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            &lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;
+            <pattern>${log.file.pattern}</pattern>
+            &lt;!&ndash; 设置字符集 &ndash;&gt;
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    -->
+
+    <!-- 文件输出日志 (文件大小策略进行文件输出，每小时产生一个日志文件给异常监控平台进行分析) -->
+    <!--
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/${log.current_error.filename}</file>
+        <append>true</append>
+        &lt;!&ndash; 支持多JVM同时操作同一个日志文件 &ndash;&gt;
+        <prudent>false</prudent>
+        &lt;!&ndash; 日志文件rolling策略 &ndash;&gt;
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.dir}/${log.zip.pattern}/${log.error.filename}</FileNamePattern>
+            &lt;!&ndash; 日志在磁盘上保留天数 &ndash;&gt;
+            <maxHistory>${log.day.remain}</maxHistory>
+        </rollingPolicy>
+        &lt;!&ndash; 过滤器，只ACCEPT接收ERROR级别的日志，其它日志级别都DENY拒绝 &ndash;&gt;
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        &lt;!&ndash; 日志输出格式 &ndash;&gt;
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${log.file.pattern}</pattern>
+            &lt;!&ndash; 设置字符集 &ndash;&gt;
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    -->
+
+    <!-- 使用root的appender-ref -->
+    <!--<logger name="com.kingsley.**" level="DEBUG" additivity="false">-->
+    <!--    <appender-ref ref="STDOUT"/>-->
+    <!--</logger>-->
+
+    <!--<logger name="com.apache.ibatis" level="TRACE"/>-->
+
+    <root level="${log.level}">
+        <appender-ref ref="CONSOLE"/>
+        <!--<appender-ref ref="ROLLING_FILE"/>-->
+        <!--<appender-ref ref="ERROR_FILE" />-->
+    </root>
+</configuration>
