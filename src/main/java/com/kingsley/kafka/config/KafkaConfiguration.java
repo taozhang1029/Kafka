@@ -16,6 +16,8 @@ import java.util.Properties;
 @PropertySource(value = "classpath:kafka-config.properties")
 public class KafkaConfiguration {
 
+    public static final String TOPIC = "test";
+
     @Value("${bootstrap.servers}")
     private String servers;
 

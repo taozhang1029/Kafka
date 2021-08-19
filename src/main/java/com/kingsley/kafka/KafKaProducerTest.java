@@ -27,8 +27,6 @@ public class KafKaProducerTest {
     @Autowired
     private Properties producerProp;
 
-    private final String topic = "test";
-
     @Test
     public void test() throws ExecutionException, InterruptedException {
         // 创建生产者对象
@@ -36,7 +34,7 @@ public class KafKaProducerTest {
         // 发送消息
         for (int i = 0; i < 100; i++) {
             // 构建一条消息
-            ProducerRecord<String, String> message = new ProducerRecord<>(topic, null, String.format("第%d条消息", i + 1));
+            ProducerRecord<String, String> message = new ProducerRecord<>(KafkaConfiguration.TOPIC, null, String.format("第%d条消息", i + 1));
             // 一、发送消息
             // Future<RecordMetadata> future = producer.send(message);
             // RecordMetadata metadata = future.get();

@@ -28,10 +28,11 @@ public class KafkaConsumerTest {
 
     @Test
     public void test() {
+        log.info("test");
         // 创建消费者对象
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProp);
         // 指定要消费的主题
-        consumer.subscribe(Collections.singletonList("test"));
+        consumer.subscribe(Collections.singletonList(KafkaConfiguration.TOPIC));
         while (true) {
             ConsumerRecords<String, String> messages = consumer.poll(Duration.ofSeconds(3));
             for (ConsumerRecord<String, String> message : messages) {
